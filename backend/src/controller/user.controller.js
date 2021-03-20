@@ -62,9 +62,6 @@ class User {
                     })
                     return
                 })
-            // res.status(200).json({
-            //     'success': true
-            // })
         }
         catch(err) {
             res.status(500).json({
@@ -74,27 +71,39 @@ class User {
         }
     }
 
-    // async login(req, res) {
-    //     const email = req.body.email
-    //     const password = req.body.password
-    //     try {
-    //         const getUser = await userModel.find({
-    //             email: email
-    //         })
-    //         if (!getUser) return res.redirect('/user/sign-in')
-    //         const hashedPassword = getUser[0].password
-    //         const match = await bcrypt.compare(password, hashedPassword)
-    //         if (match) {
-    //             const accessToken = await jwt.sign(getUser[0].toJSON(), 'secret')
-    //             res.cookie('access_token', accessToken)
-    //             return res.redirect('/')
-    //         } else {
-    //             res.redirect('/user/sign-in')
-    //         }
-    //     } catch(err) {
-    //         console.log(err)
-    //     }
-    // }
+    async login(req, res) {
+        const email = req.body.email
+        const password = req.body.password
+        try {
+            const getUser = await userModel.find({
+                email: email
+            })
+            if (!getUser) {
+                res.status(401).json({
+                    'message': 'User not found'
+                })
+                return
+            }
+            const hashedPassword = getUser[0].password
+            const match = await bcrypt.compare(password, hashedPassword)
+            if (match) {
+                const accessToken = await jwt.sign(getUser[0].toJSON(), 'secret')
+                res.status(200).json({
+                    'message': 'User authenticated',
+                    'token': accessToken
+                })
+            } else {
+                res.status(401).json({
+                    'message': 'Email or password wrong'
+                })
+            }
+        } catch(err) {
+            res.status(500).json({
+                'message': 'internal server error',
+                'track': err
+            })
+        }
+    }
 }
 
 module.exports = User
