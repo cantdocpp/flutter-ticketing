@@ -6,6 +6,12 @@ var jwt = require('jsonwebtoken')
 class User {
     constructor() {}
 
+    testUser(req, res) {
+        res.status(200).json({
+            message: 'pong'
+        })
+    }
+
     async getAllUser(req, res) {
         try {
             const users = await userModel.find()
