@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    image: flutter-ticket
+    container_name: flutterticket
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      - CONNECTION="mongodb://mongo:27017"
+    networks:
+      - app-network
+
+  db:
+    image: mongo:3.6
+    restart: always
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: nat
