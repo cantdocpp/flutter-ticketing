@@ -75,7 +75,7 @@ class User {
         const email = req.body.email
         const password = req.body.password
         try {
-            const getUser = await userModel.find({
+            const getUser = await userModel.findOne({
                 email: email
             })
             if (!getUser) {
@@ -84,20 +84,23 @@ class User {
                 })
                 return
             }
-            const hashedPassword = getUser[0].password
+            const hashedPassword = getUser.password
             const match = await bcrypt.compare(password, hashedPassword)
             if (match) {
-                const accessToken = await jwt.sign(getUser[0].toJSON(), 'secret')
+                const accessToken = await jwt.sign(getUser.toJSON(), 'secret')
                 res.status(200).json({
                     'message': 'User authenticated',
                     'token': accessToken
                 })
+                return
             } else {
                 res.status(401).json({
                     'message': 'Email or password wrong'
                 })
+                return
             }
         } catch(err) {
+            console.log(err, '+++++++++++')
             res.status(500).json({
                 'message': 'internal server error',
                 'track': err
