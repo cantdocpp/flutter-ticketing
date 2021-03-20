@@ -10,13 +10,16 @@ services:
     depends_on:
       - db
     environment:
-      - CONNECTION="mongodb://mongo:27017"
+      CONNECTION: mongodb://mongo:27017/nobars
     networks:
       - app-network
 
   db:
     image: mongo:3.6
+    container_name: mongo
     restart: always
+    ports:
+      - 27017:27017
     networks:
       - app-network
 

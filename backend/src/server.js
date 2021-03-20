@@ -24,6 +24,7 @@ app.use(fileUpload({
 // connect to DB
 try {
     (async() => {
+        console.log(process.env.CONNECTION, '+++++++++++++')
         await mongoose.connect(process.env.CONNECTION || `mongodb://localhost:27017/nobars`, { useUnifiedTopology: true });
     })()
 } catch(err) {
