@@ -25,7 +25,7 @@ app.use(fileUpload({
 // connect to DB
 try {
     (async() => {
-        await mongoose.connect(`mongodb://localhost:27017`, { useUnifiedTopology: true });
+        await mongoose.connect(`mongodb://localhost:27017/nobars`, { useUnifiedTopology: true });
     })()
 } catch(err) {
     console.log(err, 'error')
