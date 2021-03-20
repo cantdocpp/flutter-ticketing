@@ -17,9 +17,12 @@ class MyApp extends StatelessWidget {
             image: AssetImage("assets/home.jpg"),
           )
         ),
-        child: Center(child: Text('Test'),)
+        child: Align(
+          alignment: Alignment.centerLeft, 
+          child: Text('Welcome, \n Anggito' , style: TextStyle( fontSize: 30 , color: Colors.white),
+        )
         )
       ),
-    );
+    ));
   }
 }
