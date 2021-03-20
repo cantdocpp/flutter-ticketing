@@ -9,7 +9,9 @@ class User {
     async getAllUser(req, res) {
         try {
             const users = await userModel.find()
-            console.log(users)
+            res.status(200).json({
+                'users': users
+            })
         } catch(err) {
             res.status(500).json({
                 'message': 'internal server error'
@@ -24,45 +26,69 @@ class User {
     }
 
     async register(req, res) {
-        const password = req.body.password
-        const saltRound = 10
-        const hashedPassword = await bcrypt.hash(password, saltRound, '')
+        const password = await req.body.password
+        const salt = await bcrypt.genSaltSync(10)
+        const hashedPassword = await bcrypt.hash(password, salt)
         req.body.password = hashedPassword
         try {
-            await userModel.create(req.body)
-            res.status(200).json({
-                'success': true
-            })
+            const emailExist = await userModel.findOne({
+                'email': req.body.email
+            }).exec()
+            if (emailExist) {
+                res.status(409).json({
+                    'message': 'User already exist'
+                })
+                return
+            }
+            userModel.create(req.body)
+                .then(response => {
+                    const token = jwt.sign(response.toJSON(), 'secret')
+                    res.status(200).json({
+                        'message': 'user created',
+                        'token': token
+                    })
+                })
+                .catch(error => {
+                    console.log(error)
+                    res.status(500).json({
+                        'message': 'internal server error',
+                        'track': error
+                    })
+                    return
+                })
+            // res.status(200).json({
+            //     'success': true
+            // })
         }
         catch(err) {
-            console.log(err)
             res.status(500).json({
-                'message': 'internal server error'
+                'message': 'internal server error',
+                'track': err
             })
         }
     }
 
-    async login(req, res) {
-        const email = req.body.email
-        const password = req.body.password
-        try {
-            const getUser = await userModel.find({
-                email: email
-            })
-            if (!getUser) return res.redirect('/user/sign-in')
-            const hashedPassword = getUser[0].password
-            const match = await bcrypt.compare(password, hashedPassword)
-            if (match) {
-                const accessToken = await jwt.sign(getUser[0].toJSON(), 'secret')
-                res.cookie('access_token', accessToken)
-                return res.redirect('/')
-            } else {
-                res.redirect('/user/sign-in')
-            }
-        } catch(err) {
-            console.log(err)
-        }
-    }
+    // async login(req, res) {
+    //     const email = req.body.email
+    //     const password = req.body.password
+    //     try {
+    //         const getUser = await userModel.find({
+    //             email: email
+    //         })
+    //         if (!getUser) return res.redirect('/user/sign-in')
+    //         const hashedPassword = getUser[0].password
+    //         const match = await bcrypt.compare(password, hashedPassword)
+    //         if (match) {
+    //             const accessToken = await jwt.sign(getUser[0].toJSON(), 'secret')
+    //             res.cookie('access_token', accessToken)
+    //             return res.redirect('/')
+    //         } else {
+    //             res.redirect('/user/sign-in')
+    //         }
+    //     } catch(err) {
+    //         console.log(err)
+    //     }
+    // }
 }
 
 module.exports = User
