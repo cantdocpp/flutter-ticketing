@@ -65,7 +65,7 @@ class _BodyState extends State<Body> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.yellow[700],
         onTap: _onItemTapped,
       ),
     );
