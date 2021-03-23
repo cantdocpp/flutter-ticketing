@@ -6,8 +6,6 @@ const fileUpload = require('express-fileupload');
 
 // app route
 const user = require('./routes/user')
-// const main = require('./routes/main.js')
-// const product = require('./routes/product')
 
 const app = express()
 const port = 3001
@@ -35,8 +33,6 @@ app.use(express.static(__dirname + '/public'));
 
 // app routes
 app.use('/user', user)
-// app.use('/', main)
-// app.use('/product', product)
 
 // start the app
 app.listen(process.env.PORT || 3001, () => {
