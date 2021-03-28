@@ -43,7 +43,7 @@ class SignUpBody extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return Login();
+                    return Login(child: null);
                   },
                 ),
               );
@@ -53,7 +53,7 @@ class SignUpBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SocalIcon(
+              SocialIcon(
                 iconSrc: "assets/icons/google-plus.svg",
                 press: () {},
               ),

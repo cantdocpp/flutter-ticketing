@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nobars/const.dart';
 
-class SocalIcon extends StatelessWidget {
+class SocialIcon extends StatelessWidget {
   final String iconSrc;
   final Function press;
-  const SocalIcon({
+  const SocialIcon({
     Key key,
     this.iconSrc,
     this.press,
@@ -15,16 +16,20 @@ class SocalIcon extends StatelessWidget {
     return GestureDetector(
       onTap: press,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: kPrimaryLightColor,
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 2,
+              color: kPrimaryLightColor,
+            ),
+            shape: BoxShape.circle,
           ),
-          shape: BoxShape.circle,
-        ),
-      ),
+          child: SvgPicture.asset(
+            iconSrc,
+            height: 20,
+            width: 20,
+          )),
     );
   }
 }

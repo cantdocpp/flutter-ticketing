@@ -12,7 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter',
         theme: ThemeData(
-            primaryColor: kPrimaryColor, scaffoldBackgroundColor: Colors.white),
+            primaryColor: kPrimaryColor,
+            scaffoldBackgroundColor: Colors.white,
+            visualDensity: VisualDensity.adaptivePlatformDensity),
         home: Body());
   }
 }

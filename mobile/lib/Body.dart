@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nobars/HomeBackground.dart';
-import 'package:nobars/Login/LoginBody.dart';
+import 'package:nobars/HomeScreen/Home.dart';
+import 'package:nobars/Login/Login.dart';
+import 'package:nobars/MovieScreen/Movie.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -14,15 +15,12 @@ class _BodyState extends State<Body> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Home(child: null),
-    Text(
-      'Index 1: Movie',
-      style: optionStyle,
-    ),
+    Movie(child: null),
     Text(
       'Index 2: Ticket',
       style: optionStyle,
     ),
-    LoginBody(),
+    Login(child: null),
   ];
 
   void _onItemTapped(int index) {
