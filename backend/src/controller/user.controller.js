@@ -32,6 +32,12 @@ class User {
     }
 
     async register(req, res) {
+        if (!req.body.email || !req.body.password || !req.body.phone) {
+            res.status(422).json({
+                'message': 'Email, password, or phone number cannot be blank'
+            })
+            return
+        }
         const password = await req.body.password
         const salt = await bcrypt.genSaltSync(10)
         const hashedPassword = await bcrypt.hash(password, salt)
@@ -74,6 +80,12 @@ class User {
     async login(req, res) {
         const email = req.body.email
         const password = req.body.password
+        if (!email || !password) {
+            res.status(422).json({
+                'message': 'Email or password cannot be blank'
+            })
+            return
+        }
         try {
             const getUser = await userModel.findOne({
                 email: email
