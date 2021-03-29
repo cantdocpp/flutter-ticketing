@@ -3,10 +3,12 @@ import 'package:nobars/Components/AlreadyHaveAnAccountCheck.dart';
 import 'package:nobars/Components/RoundedButton.dart';
 import 'package:nobars/Components/RoundedInputField.dart';
 import 'package:nobars/Components/RoundedPasswordField.dart';
-import 'package:nobars/Signup/Signup.dart';
+import 'package:nobars/Login/Login.dart';
+import 'package:nobars/Signup/Social_icon.dart';
+import 'package:nobars/Signup/or_divider.dart';
 
-class LoginBody extends StatelessWidget {
-  const LoginBody({
+class SignUpBody extends StatelessWidget {
+  const SignUpBody({
     Key key,
   }) : super(key: key);
 
@@ -14,11 +16,11 @@ class LoginBody extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Material(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
           Text(
-            "LOGIN",
+            "SIGNUP",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: size.height * 0.03),
@@ -30,22 +32,35 @@ class LoginBody extends StatelessWidget {
             onChanged: (value) {},
           ),
           RoundedButton(
-            text: "LOGIN",
+            text: "SIGNUP",
             press: () {},
           ),
           SizedBox(height: size.height * 0.03),
           AlreadyHaveAnAccountCheck(
+            login: false,
             press: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return (SignUp());
+                    return Login(child: null);
                   },
                 ),
               );
             },
           ),
-        ]));
+          OrDivider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SocialIcon(
+                iconSrc: "assets/icons/google-plus.svg",
+                press: () {},
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
